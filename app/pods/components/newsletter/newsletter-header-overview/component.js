@@ -7,6 +7,7 @@ export default Component.extend({
   classNames: ['vlc-page-header', 'vl-u-bg-alt', 'no-print'],
 
   intl: service(),
+  store: service(),
   session: service(),
   routing: service('-routing'),
   toaster: service(),
@@ -17,8 +18,8 @@ export default Component.extend({
   agenda: null,
   isVerifying: null,
 
-  shouldShowPrintButton: computed('routing.currentRouteName', function () {
-    return this.routing.get('currentRouteName').includes(`newsletter.overview`);
+  shouldShowPrintButton: computed('routing.currentRouteName', function() {
+    return this.routing.get('currentRouteName').includes('newsletter.overview');
   }),
 
   actions: {
@@ -39,7 +40,6 @@ export default Component.extend({
       });
       this.set('newsletterHTML', null);
       this.set('testCampaignIsLoading', false);
-
     },
 
     async deleteCampaign() {
@@ -51,9 +51,12 @@ export default Component.extend({
         await this.newsletterService.deleteCampaign(mailCampaign.campaignId);
       }
       mailCampaign.destroyRecord();
-      meeting.set('mailCampaign', null);
+      const reloadedMeeting = await this.store.findRecord('meeting', meeting.id, {
+        reload: true,
+      });
+      reloadedMeeting.set('mailCampaign', null);
       this.set('mailCampaign', null);
-      await meeting.save();
+      reloadedMeeting.save();
       this.set('isLoading', false);
     },
 
@@ -71,7 +74,8 @@ export default Component.extend({
         this.toaster.error(this.intl.t('error-send-newsletter'), this.intl.t('warning-title'));
       });
       this.set('isLoading', false);
-      mailCampaign.set('sentAt', moment().utc().toDate());
+      mailCampaign.set('sentAt', moment().utc()
+        .toDate());
       await mailCampaign.save();
       await meeting.belongsTo('mailCampaign').reload();
       this.set('isVerifying', false);
@@ -103,6 +107,6 @@ export default Component.extend({
     async clearNewsletterHTML() {
       this.set('newsletterHTML', null);
       this.set('testCampaignIsLoading', false);
-    }
+    },
   },
 });

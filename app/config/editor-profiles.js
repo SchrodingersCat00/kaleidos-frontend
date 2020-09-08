@@ -3,5 +3,5 @@ export default {
     "rdfa-editor-text-expand-plugin"
   ],
   all: [],
-  none: []
+  none: [],
 };

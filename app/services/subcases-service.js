@@ -1,6 +1,6 @@
-import Service from '@ember/service';
+import Service, { inject } from '@ember/service';
 import { ajax } from 'fe-redpencil/utils/ajax';
-import { inject } from '@ember/service';
+import moment from 'moment';
 
 export default Service.extend({
   store: inject(),
@@ -10,74 +10,83 @@ export default Service.extend({
     return ajax(
       {
         headers: {
-          'Content-Type': 'application/vnd.api+json'
+          'Content-Type': 'application/vnd.api+json',
         },
         method: 'GET',
-        url: `/custom-subcases/getPostponedSubcases`,
+        url: '/custom-subcases/getPostponedSubcases',
       }
-    ).then(({ data }) => {
-      return data.map((object) => {
-        return object.id;
-      });
-    })
+    ).then(({
+      data,
+    }) => data.map((object) => object.id));
   },
 
   async getSubcasePhases(subcase) {
     return ajax({
       method: 'GET',
       url: `/custom-subcases/getSubcasePhases?subcaseId=${subcase.id}`,
-    }).then((result) => {
-      return this.processSubcasePhases(result.body);
-    }).catch((error) => {
-      console.log('error', error);
-    });
+    }).then((result) => this.processSubcasePhases(result.body))
+      .catch((error) => {
+        console.log('error', error);
+      });
   },
 
+  // eslint-disable-next-line camelcase
   setNewMandateeToRelatedOpenSubcases(old_mandatee, new_mandatee) {
     return ajax(
       {
         method: 'POST',
-        url: `/minister-jurisdiction-service/transfer/procedures`,
+        url: '/minister-jurisdiction-service/transfer/procedures',
         data: {
-          old_mandatee: old_mandatee,
-          new_mandatee: new_mandatee
-        }
+          // eslint-disable-next-line camelcase
+          old_mandatee,
+          // eslint-disable-next-line camelcase
+          new_mandatee,
+        },
       }
-    ).then(({ data }) => {
-      return data;
-    })
+    ).then(({
+      data,
+    }) => data);
   },
 
-  processSubcasePhases(activities) {
-    //KAS1425 sort activities? done in the micro service atm.
-    if (typeof activities === 'string') {    
+  async processSubcasePhases(activities) {
+    // KAS-1425 sort activities? done in the micro service atm.
+    if (typeof activities === 'string') {
       return null;
-    } else {
-      let phases = [];
-      activities.map((activityData) => {
-        if (activityData.startDatum) {
-          phases.push({ label: this.intl.t('activity-phase-proposed-for-agenda'), date: moment.utc(activityData.startDatum).toDate() });
-        }
-        if (activityData.phaseData) {
-          const phaseData = activityData.phaseData;
-          if (phaseData.geplandeStart) {
-            const geplandeStart = moment.utc(phaseData.geplandeStart).toDate();
-            phases.push({ label: this.intl.t('activity-phase-approved-on-agenda'), date: geplandeStart });
-            if (phaseData.postponed && phaseData.postponed == 'true') {
-              phases.push({ label: this.intl.t('activity-phase-postponed-on-agenda'), date: geplandeStart });
-              if (phaseData.approved && phaseData.approved == 'true') {
-                phases.push({ label: this.intl.t('activity-phase-postponed-is-decided') });
-              }
-            } else {
-              if (phaseData.approved && phaseData.approved == 'true') {
-                phases.push({ label: this.intl.t('activity-phase-decided-on-agenda'), date: geplandeStart });
+    }
+    const phases = [];
+    for (let index = 0; index < activities.length; index++) {
+      const activityData = activities[index];
+      if (activityData.startDatum) {
+        phases.push({
+          label: this.intl.t('activity-phase-proposed-for-agenda'), date: moment.utc(activityData.startDatum).toDate(),
+        });
+      }
+      if (activityData.phaseData) {
+        const {
+          phaseData,
+        } = activityData;
+        if (phaseData.geplandeStart) {
+          const geplandeStart = moment.utc(phaseData.geplandeStart).toDate();
+          phases.push({
+            label: this.intl.t('activity-phase-approved-on-agenda'), date: geplandeStart,
+          });
+          if (phaseData.decisionResultId) {
+            const drc = await this.store.findRecord('decision-result-code', phaseData.decisionResultId);
+            if (drc) {
+              phases.push({
+                label: `${drc.label} ${this.intl.t('decision-activity-result')}`, date: geplandeStart,
+              });
+              if (drc.isPostponed) {
+                phases.push({
+                  label: this.intl.t('decision-activity-result-postponed'),
+                });
               }
             }
           }
         }
-      });
-      return phases;
+      }
     }
-  }
+    return phases;
+  },
 
 });

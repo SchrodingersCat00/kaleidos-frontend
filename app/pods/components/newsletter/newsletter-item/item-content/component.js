@@ -7,7 +7,6 @@ export default Component.extend({
   classNameBindings: ['isFlandersArt:vl-typography--definite'],
   newsletterService: inject(),
   currentSession: inject(),
-  isShowingVersions: false,
   allowEditing: false,
   definite: false,
   itemIndex: 0,
@@ -15,31 +14,24 @@ export default Component.extend({
   agendaitem: null,
   newsletterInfo: null,
 
-  isFlandersArt: computed('allowEditing', function () {
+  isFlandersArt: computed('allowEditing', function() {
     return !this.allowEditing;
   }),
 
-  numberToShow: computed('agendaitem.{number,showAsRemark}', 'itemIndex', 'definite', function () {
+  numberToShow: computed('agendaitem.{number,showAsRemark}', 'itemIndex', 'definite', function() {
     if (this.agendaitem.showAsRemark && this.definite === 'true') {
       return '';
     }
     if (this.itemIndex) {
-      return this.itemIndex + '.';
-    } else {
-      return this.agendaitem.get('number') + '.';
+      return `${this.itemIndex}.`;
     }
+    return `${this.agendaitem.get('number')}.`;
   }),
 
   actions: {
-    showDocuments() {
-      this.toggleProperty('isShowingVersions');
-    },
-    async toggleIsEditing() {
-      const subcase = await this.newsletterInfo.get('subcase');
-      if (!this.newsletterInfo) {
-        await this.newsletterService.createNewsItemForSubcase(subcase, this.agendaitem);
-      } else {
-        this.toggleProperty('isEditing');
+    startEditing() {
+      if (this.onStartEditing) {
+        this.onStartEditing();
       }
     },
   },

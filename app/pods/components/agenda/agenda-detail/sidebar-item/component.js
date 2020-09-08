@@ -16,14 +16,15 @@ export default class SidebarItem extends Component {
   @service('current-session') currentSessionService;
   @service agendaService;
   @service toaster;
+  @service router;
 
   @alias('sessionService.selectedAgendaItem') selectedAgendaItem;
   @alias('sessionService.currentAgenda') currentAgenda;
   @alias('args.agendaitem.checkAdded') isNew;
   @alias('args.agendaitem.agendaActivity.subcase') subcase;
+  @alias('args.agendaitem.treatments.firstObject.newsletterInfo') newsletterInfo;
 
   hideLabel = true;
-  isShowingChanges = null;
 
   @tracked isClickable = true;
   @tracked isRetracted = this.args.agendaitem.retracted;
@@ -54,8 +55,10 @@ export default class SidebarItem extends Component {
 
   @action
   conditionallyScrollIntoView(element) {
-    if (this.isActive) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!this.isActive) {
+      element.scrollIntoView({
+        behavior: 'smooth', block: 'center',
+      });
     }
   }
 }
