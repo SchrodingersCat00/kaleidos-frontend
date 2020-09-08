@@ -4,7 +4,7 @@
       {{#if (not (await agendaitem.nota))}}
         <button type="button" class="vl-button vl-button--secondary vl-button--icon-before vl-button--disabled"
         >
-          <i class="vl-button__icon vl-button__icon--before vl-vi vl-vi-document"
+          <i class="vl-button__icon vl-button__icon--before ki-document"
           ></i>
           {{t "no-nota"}}
         </button>
@@ -12,7 +12,7 @@
         <button type="button" class="vl-button vl-button--secondary vl-button--icon-before"
           {{action "openDocument" agendaitem bubbles=false}}
         >
-          <i class="vl-button__icon vl-button__icon--before vl-vi vl-vi-document"
+          <i class="vl-button__icon vl-button__icon--before ki-document"
           ></i>
           {{t "open-note"}}
         </button>
@@ -40,13 +40,13 @@
   </div>
   <div class="vlc-input-field-block">
     {{web-components/vl-form-label value=(t "short-title")}}
-    {{web-components/vl-form-input width="4" value=title}}
+    {{web-components/vl-form-input width="4" value=newsletterInfo.title}}
   </div>
   <div class="vlc-input-field-block">
     {{web-components/vl-form-label value=(t "mandatee-proposal")}}
     <p>
-      {{#if (await item.newsletterProposal)}}
-        {{await item.newsletterProposal}}
+      {{#if (await newsletterInfo.newsletterProposal)}}
+        {{await newsletterInfo.newsletterProposal}}
       {{else}}
         {{t "not-applicable"}}
       {{/if}}
@@ -57,21 +57,23 @@
     {{web-components/vl-rdfa-editor
       data-test-rdfa-editor
       isLarge=isExpanded
-      richtext=(await agendaitem.agendaActivity.subcase.newsletterInfo.richtext)
+      richtext=(await newsletterInfo.richtext)
       handleRdfaEditorInit=(action "handleRdfaEditorInit")
     }}
   </div>
+
   <div class="vlc-input-field-block vl-u-text--capitalize">
     {{web-components/vl-form-label value=(t "remark")}}
-    {{web-components/vl-form-input width="4" value=remark}}
+    {{web-components/vl-form-input width="4" value=newsletterInfo.remark}}
   </div>
+
   <div class="vlc-input-field-block">
     {{web-components/vl-form-label value=(t "finished")}}
-    {{web-components/vl-toggle value=finished}}
+    {{web-components/vl-toggle value=newsletterInfo.finished}}
   </div>
   <div class="vlc-input-field-block" data-test-themes-selector>
     {{web-components/vl-form-label value=(t "themes")}}
-    {{utils/themes-selector selectedThemes=(await themes)}}
+    {{utils/themes-selector selectedThemes=(await newsletterInfo.themes)}}
   </div>
 
 </div>

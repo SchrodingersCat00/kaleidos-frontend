@@ -3,31 +3,38 @@ import { inject } from '@ember/service';
 import { hash } from 'rsvp';
 import {
   parseDraftsAndGroupsFromAgendaitems,
-  sortByPriority,
+  sortByPriority
 } from 'fe-redpencil/utils/agenda-item-utils';
 
 export default Route.extend({
   agendaService: inject(),
   type: 'notes',
+  allowEmptyGroups: true,
 
   queryParams: {
-    definite: { refreshModel: false }
+    definite: {
+      refreshModel: false,
+    },
   },
 
   async model() {
     const session = await this.modelFor('print-overviews');
     const agenda = await this.modelFor(`print-overviews.${this.type}`);
-    let agendaitems = await this.store.query('agendaitem', {
-      filter: { agenda: { id: agenda.get('id') } },
+    const agendaitems = await this.store.query('agendaitem', {
+      filter: {
+        agenda: {
+          id: agenda.get('id'),
+        },
+      },
       include: 'mandatees',
-      sort: 'priority'
+      sort: 'priority',
     });
 
-    const announcements = agendaitems.filter((item) => {
-      return item.showAsRemark;
-    });
+    const announcements = agendaitems.filter((item) => item.showAsRemark);
 
-    const { draftAgendaitems, groupedAgendaitems } = await parseDraftsAndGroupsFromAgendaitems(agendaitems);
+    const {
+      draftAgendaitems, groupedAgendaitems,
+    } = await parseDraftsAndGroupsFromAgendaitems(agendaitems);
 
     await this.agendaService.groupAgendaItemsOnGroupName(draftAgendaitems);
 

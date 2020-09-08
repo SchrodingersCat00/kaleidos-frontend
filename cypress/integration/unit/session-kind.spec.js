@@ -1,14 +1,13 @@
-/*global context, before, it, cy,beforeEach, Cypress*/
-/// <reference types="Cypress" />
+/* global context, before, it, cy,beforeEach */
+// / <reference types="Cypress" />
 
-import actionModal from "../../selectors/action-modal.selectors";
+import actionModal from '../../selectors/action-modal.selectors';
 
-import printOverview from "../../selectors/print-overview.selectors";
+import printOverview from '../../selectors/print-overview.selectors';
 
-import newsletter from "../../selectors/newsletter.selector";
+import newsletter from '../../selectors/newsletter.selector';
 
 context('Different session kinds should show different titles', () => {
-  const plusMonths = 2;
   const regular = '/vergadering/5EC5258C5B08050008000001/agenda/5EC5258D5B08050008000002/agendapunten';
   const special = '/vergadering/5EC525AC5B08050008000005/agenda/5EC525AD5B08050008000006/agendapunten';
   const electronic = '/vergadering/5EC525CB5B08050008000009/agenda/5EC525CC5B0805000800000A/agendapunten';
@@ -29,10 +28,6 @@ context('Different session kinds should show different titles', () => {
     cy.get(actionModal.showActionOptions).click();
     cy.get(actionModal.navigatetodecisions).click();
     cy.get(printOverview.printoverviewTemplateHeaderTitle).contains(textToDisplay);
-    cy.clickReverseTab('Klad');
-    cy.get(printOverview.printoverviewDecisionsHeaderTitle).contains(textToDisplay);
-    cy.clickReverseTab('Definitief');
-    cy.get(printOverview.printoverviewDecisionsHeaderTitle).contains(textToDisplay);
   });
 
   it('should show the correct translations for special session in decision print overview', () => {
@@ -41,10 +36,6 @@ context('Different session kinds should show different titles', () => {
     cy.get(actionModal.showActionOptions).click();
     cy.get(actionModal.navigatetodecisions).click();
     cy.get(printOverview.printoverviewTemplateHeaderTitle).contains(textToDisplay);
-    cy.clickReverseTab('Klad');
-    cy.get(printOverview.printoverviewDecisionsHeaderTitle).contains(textToDisplay);
-    cy.clickReverseTab('Definitief');
-    cy.get(printOverview.printoverviewDecisionsHeaderTitle).contains(textToDisplay);
   });
 
   it('should show the correct translations for electronic session in decision print overview', () => {
@@ -53,19 +44,18 @@ context('Different session kinds should show different titles', () => {
     cy.get(actionModal.showActionOptions).click();
     cy.get(actionModal.navigatetodecisions).click();
     cy.get(printOverview.printoverviewTemplateHeaderTitle).contains(textToDisplay);
-    cy.clickReverseTab('Klad');
-    cy.get(printOverview.printoverviewDecisionsHeaderTitle).contains(textToDisplay);
-    cy.clickReverseTab('Definitief');
-    cy.get(printOverview.printoverviewDecisionsHeaderTitle).contains(textToDisplay);
   });
 
   it('should show the correct translations for all kinds of sessions in newsletter overview', () => {
     cy.visit('/kort-bestek?size=100');
-    cy.get('.data-table > tbody', { timeout: 20000 }).children().as('rows');
+    cy.get('.data-table > tbody', {
+      timeout: 20000,
+    }).children()
+      .as('rows');
     cy.get('@rows').within(() => {
-      cy.contains(`Kort bestek voor de ministerraad van`);
-      cy.contains(`Kort bestek voor de ministerraad via elektronische procedure van`);
-      cy.contains(`Kort bestek voor de bijzondere ministerraad van`);
+      cy.contains('Kort bestek voor de ministerraad van');
+      cy.contains('Kort bestek voor de ministerraad via elektronische procedure van');
+      cy.contains('Kort bestek voor de bijzondere ministerraad van');
     });
   });
 
@@ -75,10 +65,6 @@ context('Different session kinds should show different titles', () => {
     cy.get(actionModal.showActionOptions).click();
     cy.get(actionModal.navigatetonewsletter).click();
     cy.get(newsletter.overviewTitle).contains(textToDisplay);
-    cy.clickReverseTab('Klad');
-    cy.get(newsletter.meetingTitle).contains(textToDisplay);
-    cy.clickReverseTab('Definitief');
-    cy.get(newsletter.meetingTitle).contains(textToDisplay);
   });
 
   it('should show the correct translations for special session in newsletter-info print overview', () => {
@@ -105,5 +91,4 @@ context('Different session kinds should show different titles', () => {
     cy.clickReverseTab('Definitief');
     cy.get(newsletter.meetingTitle).contains(textToDisplay);
   });
-
 });

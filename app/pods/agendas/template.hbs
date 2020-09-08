@@ -15,7 +15,7 @@
                     type="button"
                     class="vl-button vl-button--icon-before"
               {{action "createNewSession"}}>
-              <i class="vl-button__icon vl-button__icon--before vl-vi vl-vi-add"></i>
+              <i class="vl-button__icon vl-button__icon--before ki-add"></i>
               {{t "new-agenda"}}
             </button>
           </div>
@@ -35,6 +35,7 @@
     {{sessions/forms/new-session
       successfullyAdded=(action "successfullyAdded")
       cancelForm=(action "cancelNewSessionForm")
+      formattedMeetingIdentifier=formattedMeetingIdentifier
     }}
   {{/web-components/vl-modal}}
 {{/if}}

@@ -2,23 +2,22 @@ import Component from '@glimmer/component';
 
 export default class VlAlertComponent extends Component {
   get typeClass() {
-    const t = this.args.type;
-    if (['success', 'error', 'warning'].includes(t)) {
-      return `vl-alert--${t}`;
-    } else {
-      return null;
+    const classType = this.args.type;
+    if (['success', 'error', 'warning'].includes(classType)) {
+      return `vl-alert--${classType}`;
     }
+    return null;
   }
 
   get iconClass() {
-    const classes = ['vl-vi'];
-    const t = this.args.type;
-    if (['warning', 'error'].includes(t)) {
-      classes.push('vl-vi-alert-triangle');
-    } else if (t === 'success') {
-      classes.push('vl-vi-check');
+    const classes = [];
+    const currentType = this.args.type;
+    if (['warning', 'error'].includes(currentType)) {
+      classes.push('ki-alert-triangle');
+    } else if (currentType === 'success') {
+      classes.push('ki-check');
     } else {
-      classes.push('vl-vi-alert-circle');
+      classes.push('ki-info-circle');
     }
     return classes.join(' ');
   }
@@ -26,5 +25,4 @@ export default class VlAlertComponent extends Component {
   close() {
     this.args.onClose(...arguments);
   }
-
 }

@@ -1,12 +1,12 @@
-{{#if 
+{{#if
   (and (await subcase.case.id) currentSession.isEditor)
 }}
   <div class="vl-u-spacer-extended-bottom-s">
     <div class="vl-u-display-flex vlc-u-flex-align-baseline">
       <LinkTo
         @route="cases.case.subcases.subcase.overview"
-        @models={{array 
-          (await subcase.case.id) 
+        @models={{array
+          (await subcase.case.id)
           (await subcase.id)
         }}
         class="vl-link" >
@@ -77,24 +77,18 @@
   <div class="vl-u-spacer-extended-bottom-s">
     <div class="pill-container vl-u-display-flex">
       <span
-        class="vlc-pill
-        {{if agendaitem.showInNewsletter "vlc-pill--success" "vlc-pill--error"}}
-        vl-u-spacer-extended-right-s"
+        class="vlc-pill {{if newsletterInfo.inNewsletter "vlc-pill--success" "vlc-pill--error"}} vl-u-spacer-extended-right-s"
       >
-      {{#if agendaitem.showInNewsletter}}
-        <span>
-          {{t "visible-in-newsletter"}}
-        </span>
-        <i
-          class="vl-button__icon vl-vi vl-vi-view-add vl-u-spacer-extended-left-s"
-        ></i>
+        {{#if newsletterInfo.inNewsletter}}
+          <span>
+            {{t "visible-in-newsletter"}}
+          </span>
+          <i class="vl-button__icon ki-visible vl-u-spacer-extended-left-s"></i>
         {{else}}
           <span>
             {{t "hidden-in-newsletter"}}
           </span>
-        <i
-          class="vl-button__icon vl-vi vl-vi-hide vl-u-spacer-extended-left-s"
-        ></i>
+          <i class="vl-button__icon ki-hide vl-u-spacer-extended-left-s"></i>
         {{/if}}
       </span>
     </div>
@@ -113,12 +107,14 @@
         {{agendaitem.formallyOkToShow.label}}
       </span>
     {{/if}}
-    {{#if (await subcase.confidential)}}
-      <span class="vlc-pill vl-icon vlc-pill--error vl-vi vl-vi-lock"></span>
-    {{else}}
-      <span
-        class="vlc-pill vl-u-spacer-extended-right-s vl-icon vlc-pill--success vl-vi vl-vi-lock-unlock"
-      ></span>
+    {{#if (await subcase)}}
+      {{#if (await subcase.confidential)}}
+        <i data-test-agenda-subcase-confidential class="vlc-pill vl-icon vlc-pill--error ki-lock-closed"></i>
+      {{else}}
+        <i
+          class="vlc-pill vl-u-spacer-extended-right-s vl-icon vlc-pill--success ki-lock-open"
+        ></i>
+      {{/if}}
     {{/if}}
   </div>
 </div>

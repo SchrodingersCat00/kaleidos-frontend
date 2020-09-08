@@ -8,17 +8,17 @@ export default Component.extend({
   classNames: ['vl-form__group vl-u-bg-porcelain'],
   store: inject(),
 
-  item: computed('agendaitem.meetingRecord', function () {
+  item: computed('agendaitem.meetingRecord', function() {
     return this.get('agendaitem.meetingRecord');
   }),
   isExpanded: false,
   initValue: cached('item.richtext'), // TODO in class syntax use as a decorator instead
 
-  richtext: computed('editor.currentTextContent', function () {
+  richtext: computed('editor.htmlContent', function() {
     if (!this.editor) {
       return;
     }
-    return this.editor.rootNode.innerHTML.htmlSafe();
+    return this.editor.htmlContent;
   }),
 
   actions: {
@@ -45,8 +45,9 @@ export default Component.extend({
     descriptionUpdated(val) {
       this.set('initValue', this.richtext + val);
     },
-    async handleRdfaEditorInit(editorInterface) {
+    handleRdfaEditorInit(editorInterface) {
+      editorInterface.setHtmlContent(this.get('initValue'));
       this.set('editor', editorInterface);
     },
-  }
+  },
 });

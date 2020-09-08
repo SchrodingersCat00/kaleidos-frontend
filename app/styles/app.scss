@@ -1,6 +1,9 @@
 @import 'ember-rdfa-editor';
 @import 'ember-power-select';
 @import 'ember-vo-webuniversum-data-table';
+// TODO: Deze fix is om ervoor te zetten dat de variabelen voor de ember-rdfa-editor op voorhand gezet worden zodat ze niett overschreven worden door de !default
+@import 'fixes/fix-ember-rdfa-editor';
+@import 'ember-rdfa-editor';
 /* ==========================================================================
    CSS file for Digikan
    ========================================================================== */
@@ -107,6 +110,7 @@ $icon-font-location: '/fonts/';
 @import 'custom-components/vlc-minister';
 @import 'custom-components/vlc-mock-login';
 @import 'custom-components/vlc-navbar';
+@import 'custom-components/vlc-new-session';
 @import 'custom-components/vlc-page-header';
 @import 'custom-components/vlc-panel-layout';
 @import 'custom-components/vlc-panel';
@@ -115,7 +119,9 @@ $icon-font-location: '/fonts/';
 @import 'custom-components/vlc-preview-container';
 @import 'custom-components/vlc-procedure-step';
 @import 'custom-components/vlc-radio-inline';
+@import 'custom-components/vlc-rdfa-editor';
 @import 'custom-components/vlc-scroll-wrapper';
+@import 'custom-components/vlc-search';
 @import 'custom-components/vlc-search-legend';
 @import 'custom-components/vlc-side-nav';
 @import 'custom-components/vlc-status-timeline';
@@ -128,6 +134,9 @@ $icon-font-location: '/fonts/';
 @import 'custom-components/vlc-user-management-table';
 @import 'custom-components/vlc-link-actions';
 @import 'custom-components/vlc-login';
+@import 'custom-components/vlc-color-badge-holder';
+@import 'custom-components/vlc-color-badge';
+@import 'custom-components/vlc-decision-result-select';
 
 
 // Kitchen sink
@@ -150,6 +159,7 @@ $icon-font-location: '/fonts/';
 @import 'fixes/fix-flex-utils';
 @import 'fixes/fix-full-height';
 @import 'fixes/fix-light-table';
+@import 'fixes/fix-icon-positioning';
 @import 'fixes/fix-kaleidos-viewer';
 @import 'fixes/fix-pre';
 @import 'fixes/fix-sortable-item';

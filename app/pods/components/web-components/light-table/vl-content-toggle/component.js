@@ -8,13 +8,15 @@ export default Component.extend({
   value: null,
   isLoading: false,
 
-  key: computed('row', 'value', 'column', function () {
+  key: computed('row', 'value', 'column', function() {
     return this.column.get('valuePath');
   }),
 
   actions: {
     async valueChanged(row) {
-      const { key } = this;
+      const {
+        key,
+      } = this;
       this.toggleProperty('isLoading');
       this.toggleProperty('value');
 
@@ -23,21 +25,12 @@ export default Component.extend({
       if (key === 'forPress') {
         itemToUpdate = row.content;
         itemToUpdate.set(`${this.key}`, (await this.value));
-      } else if (key === 'agendaActivity.subcase.newsletterInfo.inNewsletter') {
-        const agendaActivity = await row.content.get('agendaActivity');
-        const subcase = await agendaActivity.get('subcase');
-        itemToUpdate = await subcase.get('newsletterInfo');
-        if (itemToUpdate) {
-          itemToUpdate.set(`inNewsletter`, (await this.value));
-        } else {
-          itemToUpdate = await this.newsletterService.createNewsItemForSubcase(subcase, row, this.value);
-        }
       }
       if (itemToUpdate) {
         await itemToUpdate.save();
         await row.content.reload();
       }
       this.toggleProperty('isLoading');
-    }
-  }
+    },
+  },
 });
