@@ -4,16 +4,18 @@
         <h1>Loading...</h1>
     {{else}}
         {{#if this.documents}}
-            <h1>Please select a document to insert:</h1>
+            <h1>Please select documents to insert:</h1>
             <ul>
                 {{#each this.documents as |document|}}
                     <li>
-                        <button {{on "click" (fn this.decisionDocumentClicked document)}} isSelected={{document.isSelected}}>{{document.name}}</button>
+                        <input type="checkbox" checked={{document.isSelected}} {{on "click" (fn this.decisionDocumentClicked document)}}>
+                        <label>{{document.name}}</label>
                     </li>
                 {{/each}}
             </ul>
+            <button {{on "click" this.updateDocumentsInDecisionSheet}}>{{if this.listRoot "Update" "Insert"}}</button>
         {{else}}
-            <h1>No documents are found for this decision, please upload documents via the "Documents" tab</h1>
+            <h1>No documents are found for this decision. Please upload documents via the "Documents" tab.</h1>
         {{/if}}
     {{/if}}
 </div>
