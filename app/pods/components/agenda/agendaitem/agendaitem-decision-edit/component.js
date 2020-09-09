@@ -39,4 +39,9 @@ export default class AgendaItemDecisionEditComponent extends Component {
     }
     return this.treatment;
   }
+
+  @action
+  handleRdfaEditorInit(editorInterface) {
+    this.editor = editorInterface;
+  }
 }

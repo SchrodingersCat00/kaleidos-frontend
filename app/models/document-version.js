@@ -11,6 +11,7 @@ export default Model.extend({
   name: attr('string'),
   created: attr('datetime'),
   modified: attr('datetime'),
+  uri: attr('string'),
   chosenFileName: deprecatingAlias('name', {
     id: 'model-refactor.documents',
     until: '?',
