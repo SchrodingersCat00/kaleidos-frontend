@@ -25,6 +25,7 @@ export default class AgendaItemDecisionEditComponent extends Component {
 
   // eslint-disable-next-line generator-star-spacing
   @(task(function* () {
+    this.treatment.set('reportRichText', this.editor.htmlContent);
     yield this.treatment.save();
     if (this.args.onSave) {
       this.args.onSave();
@@ -42,6 +43,9 @@ export default class AgendaItemDecisionEditComponent extends Component {
 
   @action
   handleRdfaEditorInit(editorInterface) {
+    let report = this.treatment.get('reportRichText');
+    report = report ? report : '';
+    editorInterface.setHtmlContent(report);
     this.editor = editorInterface;
   }
 }

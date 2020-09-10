@@ -13,6 +13,7 @@ export default Model.extend({
   report: belongsTo('document', {
     inverse: null,
   }),
+  reportRichText: attr('string'),
   newsletterInfo: belongsTo('newsletter-info'),
   decisionResultCode: belongsTo('decision-result-code', {
     inverse: null,

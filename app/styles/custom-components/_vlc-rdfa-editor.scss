@@ -15,6 +15,41 @@
 //   display: none;
 // }
 
+.say-editor__paper {
+  font-family: "Verdana", sans-serif;
+  font-size: 10pt;
+  padding: 15mm 32mm 22mm 32mm;
+  .header {
+    .vr-logo-wrapper {
+      height: 2cm;
+      width: auto;
+      margin: 0 auto;
+      display: block;
+    }
+
+    p {
+
+      text-align: center;
+      font-size: 12pt;
+      padding: 1em 1.5em;
+      border-bottom: 1px solid black;
+    }
+    margin-bottom: 4em;
+  }
+
+  h1 {
+    text-decoration-line: underline;
+    font-weight: bold;
+    font-size: 12pt;
+  }
+
+  h2 {
+    text-decoration-line: underline;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+}
+
 .rdfa-editor img {
   width: 40%;
   height: auto;
@@ -37,12 +72,6 @@
   content: ")"
 }
 
-.rdfa-editor img {
-  width: 200%;
-  left: -50%;
-  position: relative;
-  transform: translateY(-36%);
-}
 
 .rdfa-editor #documentList li {
   display: inline;
