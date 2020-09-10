@@ -3,19 +3,40 @@
     {{#if this.isLoading}}
         <h1>Loading...</h1>
     {{else}}
-        {{#if this.documents}}
-            <h1>Please select documents to insert:</h1>
-            <ul>
-                {{#each this.documents as |document|}}
+        {{#unless this.hasHeader}}
+            <p>
+                Do you want to insert the sheet header?
+            </p>
+            <button {{on "click" this.insertDecisionSheetHeader}}>Insert header</button>
+            {{#if this.headerData.documents}}
+                <h1>Select documents to insert:</h1>
+                {{#each this.headerData.documents as |document|}}
                     <li>
-                        <input type="checkbox" checked={{document.isSelected}} {{on "click" (fn this.decisionDocumentClicked document)}}>
+                        <input type="checkbox" checked={{document.isSelected}}
+                            {{on "click" (fn this.decisionDocumentClicked document)}}>
                         <label>{{document.name}}</label>
                     </li>
                 {{/each}}
-            </ul>
-            <button {{on "click" this.updateDocumentsInDecisionSheet}}>{{if this.listRoot "Update" "Insert"}}</button>
+            {{/if}}
         {{else}}
-            <h1>No documents are found for this decision. Please upload documents via the "Documents" tab.</h1>
-        {{/if}}
+            <h1>
+                Documents
+            </h1>
+            {{#if this.headerData.documents}}
+                <h1>Select documents to insert:</h1>
+                <ul>
+                    {{#each this.headerData.documents as |document|}}
+                        <li>
+                            <input type="checkbox" checked={{document.isSelected}}
+                                {{on "click" (fn this.decisionDocumentClicked document)}}>
+                            <label>{{document.name}}</label>
+                        </li>
+                    {{/each}}
+                </ul>
+                <button {{on "click" this.updateDocumentListDataInNode}}>Update</button>
+            {{else}}
+                <h1>No documents are found for this decision. Please upload documents via the "Documents" tab.</h1>
+            {{/if}}
+        {{/unless}}
     {{/if}}
 </div>

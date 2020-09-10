@@ -1,5 +1,6 @@
 .rdfa-editor {
-  height: 30rem;
+  // height: 30rem;
+  height: 95rem;
   border: .1rem solid #BFC8D1;
 }
 
@@ -13,3 +14,44 @@
 // .say-container__aside {
 //   display: none;
 // }
+
+.rdfa-editor img {
+  width: 40%;
+  height: auto;
+}
+.rdfa-editor .underline {
+  text-decoration-line: underline;
+  font-weight: bold;
+}
+
+.rdfa-editor #documentList {
+  display: inline;
+  list-style: none;
+}
+
+.rdfa-editor #documentList::before {
+  content: "("
+}
+
+.rdfa-editor #documentList::after {
+  content: ")"
+}
+
+.rdfa-editor img {
+  width: 200%;
+  left: -50%;
+  position: relative;
+  transform: translateY(-36%);
+}
+
+.rdfa-editor #documentList li {
+  display: inline;
+}
+
+.rdfa-editor #documentList li:after {
+  content: ", ";
+}
+
+.rdfa-editor #documentList li:last-child:after {
+  content: "";
+}
