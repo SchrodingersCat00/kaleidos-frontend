@@ -16,7 +16,7 @@
 // }
 
 .say-editor__paper {
-  font-family: "Verdana", sans-serif;
+  font-family: "Arial", sans-serif;
   font-size: 10pt;
   padding: 15mm 32mm 22mm 32mm;
   .header {
@@ -43,44 +43,38 @@
     font-size: 12pt;
   }
 
+  .nomargintop {
+    margin-top: 0;
+  }
+
   h2 {
     text-decoration-line: underline;
     font-weight: bold;
     font-size: 1.5rem;
   }
-}
 
-.rdfa-editor img {
-  width: 40%;
-  height: auto;
-}
-.rdfa-editor .underline {
-  text-decoration-line: underline;
-  font-weight: bold;
-}
+  #documentList {
+    display: inline;
+    list-style: none;
+  }
 
-.rdfa-editor #documentList {
-  display: inline;
-  list-style: none;
-}
+  #documentList::before {
+    content: "("
+  }
 
-.rdfa-editor #documentList::before {
-  content: "("
-}
+  #documentList::after {
+    content: ")"
+  }
 
-.rdfa-editor #documentList::after {
-  content: ")"
-}
+  #documentList li {
+    display: inline;
+  }
 
+  #documentList li:after {
+    content: ", ";
+  }
 
-.rdfa-editor #documentList li {
-  display: inline;
-}
-
-.rdfa-editor #documentList li:after {
-  content: ", ";
-}
-
-.rdfa-editor #documentList li:last-child:after {
-  content: "";
+  #documentList li:last-child:after {
+    content: "";
+  }
 }

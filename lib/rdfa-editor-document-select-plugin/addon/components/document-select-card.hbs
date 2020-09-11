@@ -1,20 +1,20 @@
 {{!-- addon/components/rdfa-editor-wikipedia-slug-card.js --}}
 <div>
     {{#if this.isLoading}}
-        <h1>Loading...</h1>
+        <h1 style="font-weight: bold;">Loading...</h1>
     {{else}}
         {{#unless this.hasHeader}}
             <p>
                 Do you want to insert the sheet header?
             </p>
             <button {{on "click" this.insertDecisionSheetHeader}}>Insert header</button>
-            {{#if this.headerData.documents}}
+            {{#if this.documents}}
                 <h1>Select documents to insert:</h1>
-                {{#each this.headerData.documents as |document|}}
+                {{#each this.documents as |document|}}
                     <li>
                         <input type="checkbox" checked={{document.isSelected}}
                             {{on "click" (fn this.decisionDocumentClicked document)}}>
-                        <label>{{document.name}}</label>
+                        <label>{{document.document.name}}</label>
                     </li>
                 {{/each}}
             {{/if}}
@@ -22,14 +22,14 @@
             <h1>
                 Documents
             </h1>
-            {{#if this.headerData.documents}}
+            {{#if this.documents}}
                 <h1>Select documents to insert:</h1>
                 <ul>
-                    {{#each this.headerData.documents as |document|}}
+                    {{#each this.documents as |document|}}
                         <li>
                             <input type="checkbox" checked={{document.isSelected}}
                                 {{on "click" (fn this.decisionDocumentClicked document)}}>
-                            <label>{{document.name}}</label>
+                            <label>{{document.document.name}}</label>
                         </li>
                     {{/each}}
                 </ul>
